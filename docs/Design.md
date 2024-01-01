@@ -90,3 +90,15 @@ Finally, review the translated blog post on the destination platform. If everyth
 ```powershell
 [BlogTitle]: https://[Destination Provider URL]/[translated blog post uri]
 ```
+
+## Resources
+
+### Qiita
+
+* [API](https://qiita.com/api/v2/docs#%E6%A6%82%E8%A6%81)
+* [Application](https://qiita.com/settings/applications)
+
+### Dev.to
+
+* [API](https://developers.forem.com/api/v1#tag/articles/operation/createArticle)
+* [API Key](https://dev.to/settings/extensions)
