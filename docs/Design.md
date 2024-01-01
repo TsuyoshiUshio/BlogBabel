@@ -6,6 +6,18 @@ BabelBlog is a tool designed to translate blogs between two languages, maintaini
 
 As a bilingual blogger, I often write technical blogs in both English and Japanese. However, translating these blogs manually is time-consuming and machine translation often loses the original context and nuance. BabelBlog aims to solve this problem by providing a more efficient and accurate translation solution.
 
+## Key Benefit 
+
+**Efficiency:** BabelBlog automates the process of translating blogs, saving the user time and effort.
+
+**Accuracy:** BabelBlog aims to maintain the original context and nuance of the blog post during translation, which can be a challenge with manual translation or other machine translation tools.
+
+**Convenience:** BabelBlog is a command-line tool that can be easily integrated into the user's workflow. It also supports various blog platforms, providing flexibility for the user.
+
+**Preview Feature:** Before publishing, BabelBlog posts a preview of the translated blog post on the destination platform. This allows the user to review and make any necessary adjustments to the translation.
+
+**Customization:** BabelBlog allows users to configure provider-specific settings such as language and sentiment, providing a more tailored translation experience.
+
 ## Architecture 
 
 BabelBlog is a C# command-line tool that supports Windows, Linux, and Mac. It uses the OpenAI REST API and supports various blog platforms, starting with [Qiita](https://qiita.com) and [Dev.Community](https://dev.to). The tool fetches a source blog post, creates a translated version on a destination blog service, and includes links to the original post and the BabelBlog project page. Future plans include support for [Azure Functions OpenAI extensions](https://github.com/cgillum/azure-functions-openai-extension) for automatic translation upon blog modification.
