@@ -102,3 +102,8 @@ Finally, review the translated blog post on the destination platform. If everyth
 
 * [API](https://developers.forem.com/api/v1#tag/articles/operation/createArticle)
 * [API Key](https://dev.to/settings/extensions)
+
+### OpenAI and SDK
+
+* [OpenAI documentation](https://platform.openai.com/docs/introduction)
+* [Azure OpenAI SDK](https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/openai/Azure.AI.OpenAI)
