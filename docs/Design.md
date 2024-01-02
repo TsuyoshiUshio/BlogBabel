@@ -22,6 +22,11 @@ As a bilingual blogger, I often write technical blogs in both English and Japane
 
 BabelBlog is a C# command-line tool that supports Windows, Linux, and Mac. It uses the OpenAI REST API and supports various blog platforms, starting with [Qiita](https://qiita.com) and [Dev.Community](https://dev.to). The tool fetches a source blog post, creates a translated version on a destination blog service, and includes links to the original post and the BabelBlog project page. Future plans include support for [Azure Functions OpenAI extensions](https://github.com/cgillum/azure-functions-openai-extension) for automatic translation upon blog modification.
 
+### Chunk translation
+
+GTP-4 turbo can handle [128,000 token](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) However, return token is limited to `4096` token. That means We can not translate it in one time.
+We are going to separate original document into several chunks.
+
 ## Features
 
 ### Translation
@@ -98,12 +103,22 @@ Finally, review the translated blog post on the destination platform. If everyth
 * [API](https://qiita.com/api/v2/docs#%E6%A6%82%E8%A6%81)
 * [Application](https://qiita.com/settings/applications)
 
+We choose `Personal Access Token` for accessing Qiita. We can choose OAuth2.0 with flow that include redirect. However, it is for website usage. It is too much for creating web site for this purpose.
+
 ### Dev.to
 
 * [API](https://developers.forem.com/api/v1#tag/articles/operation/createArticle)
 * [API Key](https://dev.to/settings/extensions)
 
+We can use `API Key` for accessing the API.
+
 ### OpenAI and SDK
 
 * [OpenAI documentation](https://platform.openai.com/docs/introduction)
 * [Azure OpenAI SDK](https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/openai/Azure.AI.OpenAI)
+
+### System.Text.Json
+
+Use JsonNode for parsing.
+
+* [JsonNode](https://learn.microsoft.com/ja-jp/dotnet/standard/serialization/system-text-json/use-dom#use-jsonnode)
