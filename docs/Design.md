@@ -25,7 +25,9 @@ BabelBlog is a C# command-line tool that supports Windows, Linux, and Mac. It us
 ### Chunk translation
 
 GTP-4 turbo can handle [128,000 token](https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo) However, return token is limited to `4096` token. That means We can not translate it in one time.
-We are going to separate original document into several chunks.
+We are going to separate original document into several chunks. We can use [Tokenizer](https://platform.openai.com/tokenizer) that calculate the number of tokens.
+The tokenizer is TypeScript library run in locally. We need to convert it into C#. Currently, we can find [C# Tokenizer](https://github.com/betalgo/openai/blob/master/OpenAI.SDK/Tokenizer/GPT3/TokenizerGpt3.cs), however, it doesn't support new model that we are going to use. We decide that convert [tiktoken](https://github.com/dqbd/tiktoken/blob/main/js/src/core.ts) on TypeScript into C# implementation.
+The tiktoken is based on [Byte pair encoding(BPE)](https://github.com/openai/tiktoken/tree/main?tab=readme-ov-file#what-is-bpe-anyway).
 
 ## Features
 
