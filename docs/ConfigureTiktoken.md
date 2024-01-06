@@ -69,3 +69,11 @@ curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 ```
 
 This command generate the files of ranks. We need to analyze the ranks files.
+
+```bash
+// build essential is required for c compiler.
+sudo apt update && sudo apt install build-essential
+yarn install --frozen-lockfile
+yarn run build
+yarn run test
+```
