@@ -31,6 +31,38 @@ The tiktoken is based on [Byte pair encoding(BPE)](https://github.com/openai/tik
 
 Finally we found [Microsoft/Tokenizer](https://github.com/microsoft/Tokenizer/tree/main) that is officially supported.
 
+### Translation process
+
+We have 5 processes to make the translation successfully.
+
+#### 1. Initialize
+
+Connect to the Providers (e.g. QiitaProvider, OpenAIProvider, DevToProvider) by reading the config file.
+
+#### 2. Load
+
+Load from the Source provider. Provider can be Source/Destination provider.
+
+#### 3. PreProcessing
+
+Check the total Token Count and separate with chank that contains token less than 4096.
+The algorithm will be:
+* Get the token count and devided to chanks by for each 4096
+* Read the document from top until it reach to the limit. (e.g. if the limit is 90 %, the read line until it reaches header in between 90% to 100%), until it finsihed reading
+
+#### 4. Processing
+
+Translate the chunk using OpenAI for each.
+Summarize the body of the post.
+
+#### 5. Publish
+
+Publish the translation into Desination provider as a preview mode. 
+
+#### Development Strategy
+
+Start with Simple Logic with Providers, then refactor the sofisticated design.
+
 ## Features
 
 ### Translation
