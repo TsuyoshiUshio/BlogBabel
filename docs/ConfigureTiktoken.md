@@ -59,6 +59,7 @@ Install [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable)
 * Update npm
 * Install yarn
 * Install [Rust](https://rustup.rs/)
+* [WSL2 extension](https://code.visualstudio.com/blogs/2019/09/03/wsl2)
 
 ```bash
 sudo npm install -g npm@10.2.5
@@ -77,3 +78,9 @@ yarn install --frozen-lockfile
 yarn run build
 yarn run test
 ```
+
+For debgging, [compatibility.test.ts](https://github.com/dqbd/tiktoken/blob/main/js/test/compatibility.test.ts) file use following extensions. 
+* [Vitest explorer](https://marketplace.visualstudio.com/items?itemName=ZixuanChen.vitest-explorer)
+* [Vitest Runner](https://marketplace.visualstudio.com/items?itemName=kingwl.vscode-vitest-runner)
+
+The extension enables you to debug without any configration.
