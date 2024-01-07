@@ -29,6 +29,8 @@ We are going to separate original document into several chunks. We can use [Toke
 The tokenizer is TypeScript library run in locally. We need to convert it into C#. Currently, we can find [C# Tokenizer](https://github.com/betalgo/openai/blob/master/OpenAI.SDK/Tokenizer/GPT3/TokenizerGpt3.cs), however, it doesn't support new model that we are going to use. We decide that convert [tiktoken](https://github.com/dqbd/tiktoken/blob/main/js/src/core.ts) on TypeScript into C# implementation.
 The tiktoken is based on [Byte pair encoding(BPE)](https://github.com/openai/tiktoken/tree/main?tab=readme-ov-file#what-is-bpe-anyway).
 
+Finally we found [Microsoft/Tokenizer](https://github.com/microsoft/Tokenizer/tree/main) that is officially supported.
+
 ## Features
 
 ### Translation
