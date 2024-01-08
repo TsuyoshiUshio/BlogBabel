@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogBabel", "BlogBabel\BlogBabel.csproj", "{1650B8FC-1998-4D51-9D10-B621A93A0F32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogBabel", "BlogBabel\BlogBabel.csproj", "{1650B8FC-1998-4D51-9D10-B621A93A0F32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabelLibs", "BabelLibs\BabelLibs.csproj", "{2EC82A56-8204-4FDD-B45F-06A065CDCD98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabelLibs.Tests", "BabelLibs.Tests\BabelLibs.Tests.csproj", "{27F1CB8E-CD86-463B-99C5-5254958DA310}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{1650B8FC-1998-4D51-9D10-B621A93A0F32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1650B8FC-1998-4D51-9D10-B621A93A0F32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1650B8FC-1998-4D51-9D10-B621A93A0F32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EC82A56-8204-4FDD-B45F-06A065CDCD98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EC82A56-8204-4FDD-B45F-06A065CDCD98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EC82A56-8204-4FDD-B45F-06A065CDCD98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EC82A56-8204-4FDD-B45F-06A065CDCD98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27F1CB8E-CD86-463B-99C5-5254958DA310}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27F1CB8E-CD86-463B-99C5-5254958DA310}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27F1CB8E-CD86-463B-99C5-5254958DA310}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27F1CB8E-CD86-463B-99C5-5254958DA310}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

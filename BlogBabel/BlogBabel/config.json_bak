@@ -1,0 +1,13 @@
+{
+  "Providers" : {
+    "Qiita": {
+      "PersonalAccessToken": "<Qiita PAT is here>"
+    },
+    "DevTo": {
+      "ApiKey" : "<DevTo ApiKey is here>"
+    },
+    "OpenAI": {
+      "ApiKey": "<OpenAI ApiKey is here>"
+    }
+  }
+}
