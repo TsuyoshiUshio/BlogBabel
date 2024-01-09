@@ -47,7 +47,7 @@ Load from the Source provider. Provider can be Source/Destination provider.
 
 Check the total Token Count and separate with chank that contains token less than 4096.
 The algorithm will be:
-* Get the token count and devided to chanks by for each 4096
+* Get the token count and devided to chanks within 4096. We find when it exceed 2048, find the line start with `#` or exceed 3000 token.  
 * Read the document from top until it reach to the limit. (e.g. if the limit is 90 %, the read line until it reaches header in between 90% to 100%), until it finsihed reading
 
 #### 4. Processing
@@ -152,6 +152,10 @@ We can use `API Key` for accessing the API.
 
 * [OpenAI documentation](https://platform.openai.com/docs/introduction)
 * [Azure OpenAI SDK](https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/openai/Azure.AI.OpenAI)
+
+### Microsoft Tokenizer
+
+* [Microsoft Tokenizer](https://github.com/microsoft/Tokenizer/tree/main)
 
 ### System.Text.Json
 
