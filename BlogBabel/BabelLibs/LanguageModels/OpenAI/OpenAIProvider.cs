@@ -22,44 +22,50 @@ namespace BabelLibs.LanguageModels.OpenAI
             int tokens = await CountTokens(post.Body);
 
             var chunks = await Split(post.Body, tokens, limit, 3000);
+            string model = "gpt-3.5-turbo";
 
             // Translate the post to the destination language.
             // Try to spike https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/openai/Azure.AI.OpenAI
+            StringBuilder builder = new StringBuilder();
+            Azure.Response<ChatCompletions> titleCompletion = null;
             for(int i = 0; i < chunks.Count; i++)
             {
                 var option = new ChatCompletionsOptions
                 {
-                    DeploymentName = "gpt-3.5-turbo",
+                    DeploymentName = model,
                     Messages =
                     {
                         new ChatRequestSystemMessage("You are a bilingal technical blogger. You can translate anything with keeping the context, sentiment and Markdown format."),
-                        new ChatRequestUserMessage($"Could you translate the following blogs into {language}? \n {chunks[i]}"),
+                        new ChatRequestUserMessage($"Could you translate the following blogs into {language} that is the part {i} out of {chunks.Count}? \n {chunks[i]}"),
                     }
                 };
 
                 // TODO Next Step. It will exceed the Usage limit. https://platform.openai.com/account/limits 
                 // Do something to avoid the limit.
                 var completion = await _client.GetChatCompletionsAsync(option);
-                chunks[i] = completion.Value.ToString();
-            }   
-            var option = new ChatCompletionsOptions
-                {
-                    DeploymentName = "gpt-3.5-turbo",
-                    Messages =
+                var body = completion.Value.Choices[0].Message.Content;
+
+
+                
+                builder.AppendLine(body);
+            }
+
+            var titleOption = new ChatCompletionsOptions
+            {
+                DeploymentName = model,
+                Messages =
                     {
                         new ChatRequestSystemMessage("You are a bilingal technical blogger. You can translate anything with keeping the context, sentiment and Markdown format."),
-                        new ChatRequestUserMessage($"Could you translate the following blogs into {language}? \n {chunks.FirstOrDefault()}"),
+                        new ChatRequestUserMessage($"Could you translate the blog title into {language} ? \n {post.Title}"),
                     }
-                };
+            };
+            titleCompletion = await _client.GetChatCompletionsAsync(titleOption);
 
-            // TODO Next Step. It will exceed the Usage limit. https://platform.openai.com/account/limits 
-            // Do something to avoid the limit.
-            var completion = await _client.GetChatCompletionsAsync(option);
 
             return new Post
             {
-                Title = post.Title,
-                Body = completion.Value.ToString()
+                Title = titleCompletion.Value.Choices[0].Message.Content,
+                Body = builder.ToString()
             };
         }
 
@@ -83,13 +89,18 @@ namespace BabelLibs.LanguageModels.OpenAI
                     if (currentToken > limit)
                     {
                         findingNextChapter = true;
-                        currentBuffer.AppendLine(line);
+
                         if (line.StartsWith('#') || currentToken > maxLimit)
                         {
                             findingNextChapter = false;
                             currentToken = 0;
                             result.Add(currentBuffer.ToString());
                             currentBuffer.Clear();
+                            currentBuffer.AppendLine(line);
+                        } 
+                        else
+                        {
+                            currentBuffer.AppendLine(line);
                         }
                     }
                     else
