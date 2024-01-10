@@ -25,6 +25,23 @@ namespace BabelLibs.LanguageModels.OpenAI
 
             // Translate the post to the destination language.
             // Try to spike https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/openai/Azure.AI.OpenAI
+            for(int i = 0; i < chunks.Count; i++)
+            {
+                var option = new ChatCompletionsOptions
+                {
+                    DeploymentName = "gpt-3.5-turbo",
+                    Messages =
+                    {
+                        new ChatRequestSystemMessage("You are a bilingal technical blogger. You can translate anything with keeping the context, sentiment and Markdown format."),
+                        new ChatRequestUserMessage($"Could you translate the following blogs into {language}? \n {chunks[i]}"),
+                    }
+                };
+
+                // TODO Next Step. It will exceed the Usage limit. https://platform.openai.com/account/limits 
+                // Do something to avoid the limit.
+                var completion = await _client.GetChatCompletionsAsync(option);
+                chunks[i] = completion.Value.ToString();
+            }   
             var option = new ChatCompletionsOptions
                 {
                     DeploymentName = "gpt-3.5-turbo",
