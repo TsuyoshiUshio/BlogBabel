@@ -4,6 +4,7 @@ using BabelLibs.Resources.DevTo;
 using BabelLibs.Resources.Qiita;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.Security.Authentication.ExtendedProtection;
 
 namespace BlogBabel
@@ -18,7 +19,7 @@ namespace BlogBabel
                  .AddJsonFile(path: "config.json")
                  .Build();
 
-           var services = new ServiceCollection();
+           IServiceCollection services = new ServiceCollection();
             services.Configure<QiitaSettings>(configuration.GetSection($"Providers:{QiitaSettings.SectionName}"));
             services.Configure<DevToSettings>(configuration.GetSection($"Providers:{DevToSettings.SectionName}"));
             services.Configure<OpenAISettings>(configuration.GetSection($"Providers:{OpenAISettings.SectionName}"));
@@ -26,6 +27,10 @@ namespace BlogBabel
             services.AddSingleton<QiitaProvider>();
             services.AddSingleton<DevToProvider>();
             services.AddSingleton<Processor>();
+            services.AddLogging(builder =>
+            {
+                builder.AddConsole();
+            });
 
             var serviceProvider = services.BuildServiceProvider();
 
