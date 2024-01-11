@@ -1,5 +1,6 @@
 ﻿using Azure.AI.OpenAI;
 using Microsoft.DeepDev;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -12,18 +13,24 @@ namespace BabelLibs.LanguageModels.OpenAI
     public class OpenAIProvider
     {
         private readonly OpenAIClient _client;
-        public OpenAIProvider(IOptions<OpenAISettings> settings) {
+        private readonly ILogger<OpenAIProvider> _logger;
+
+        public OpenAIProvider(IOptions<OpenAISettings> settings, ILogger <OpenAIProvider> logger) {
             _client = new OpenAIClient(settings.Value.ApiKey);
+            _logger = logger;
         }
 
         public async Task<Post> TranslateAsync(Post post, string language)
         {
+            _logger.LogInformation($"Start Translation for {language}.");
             int limit = 2048;
             int tokens = await CountTokens(post.Body);
+            _logger.LogInformation($"Count Token has been completed. {tokens} tokens found.");
 
             var chunks = await Split(post.Body, tokens, limit, 3000);
-            string model = "gpt-3.5-turbo";
+            _logger.LogInformation($"Split has been completed. {chunks.Count} chunks found.");
 
+            string model = "gpt-3.5-turbo";
             // Translate the post to the destination language.
             // Try to spike https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/openai/Azure.AI.OpenAI
             StringBuilder builder = new StringBuilder();
@@ -45,7 +52,7 @@ namespace BabelLibs.LanguageModels.OpenAI
                 var completion = await _client.GetChatCompletionsAsync(option);
                 var body = completion.Value.Choices[0].Message.Content;
 
-
+                _logger.LogInformation($"Translation chunk {i} has been completed. {body.Length} characters found.");
                 
                 builder.AppendLine(body);
             }
@@ -61,6 +68,7 @@ namespace BabelLibs.LanguageModels.OpenAI
             };
             titleCompletion = await _client.GetChatCompletionsAsync(titleOption);
 
+            _logger.LogInformation($"Translation of the title has been completed. {titleCompletion.Value.Choices[0].Message.Content.Length} characters found.");
 
             return new Post
             {

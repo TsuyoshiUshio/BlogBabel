@@ -29,7 +29,12 @@ namespace BlogBabel
             services.AddSingleton<Processor>();
             services.AddLogging(builder =>
             {
-                builder.AddConsole();
+                builder.AddSimpleConsole(options =>
+                {
+                    options.IncludeScopes = true;
+                    options.SingleLine = true;
+                    options.TimestampFormat = "[yyyy-MM-dd HH:mm:ss.fffffff] ";
+                });
             });
 
             var serviceProvider = services.BuildServiceProvider();
