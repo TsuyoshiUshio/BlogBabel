@@ -141,12 +141,94 @@ Finally, review the translated blog post on the destination platform. If everyth
 
 We choose `Personal Access Token` for accessing Qiita. We can choose OAuth2.0 with flow that include redirect. However, it is for website usage. It is too much for creating web site for this purpose.
 
+Payload
+
+```json
+body
+required
+Item body in Markdown
+Example: "# Example"
+Type: string
+
+coediting
+A flag whether this item is co-edit mode (only available on Qiita Team)
+Example: false
+Type: boolean
+
+group_url_name
+A group's url_name on which share this item (pass null to make public; only available on Qiita Team)
+Example: "dev"
+Type: null, string
+
+private
+A flag whether this item is private (only available on Qiita)
+Example: false
+Type: boolean
+
+tags
+required
+A list of tags
+Example: [{"name"=>"Ruby", "versions"=>["0.0.1"]}]
+Type: array
+
+title
+required
+The title of this item
+Example: "Example title"
+Type: string
+
+tweet
+A flag to post a tweet (only availabble if Twitter integration is enabled)
+Example: false
+Type: boolean
+
+organization_url_name
+Represents url_name of Organization of this item.
+Example: "qiita-inc"
+Type: string, null
+
+slide
+A flag whether this item has slide mode enabled
+Example: false
+Type: boolean
+```
+
 ### Dev.to
 
 * [API](https://developers.forem.com/api/v1#tag/articles/operation/createArticle)
 * [API Key](https://dev.to/settings/extensions)
 
 We can use `API Key` for accessing the API.
+
+Payload
+
+```json
+{
+    "article": {
+    "title": "string",
+    "body_markdown": "string",
+    "published": false,
+    "series": "string",
+    "main_image": "string",
+    "canonical_url": "string",
+    "description": "string",
+    "tags": "string",
+    "organization_id": 0
+    }
+}
+```
+
+### Exchange the post
+
+The providers has different payload. We are focusing small part.
+I use `Dev.to` as the tipcial formatting. 
+
+`title`: translate `title` from another provider
+`body_markdown`: translate `body_markdown` equivalent from another provider
+`published`: Start with `false`. We need to review the translation before publishing it
+`tags`: After the translate has done, AI can find proper tags and pass it. If it exists, ai will translate it.
+
+Any other properties are not important and scope out from the first impelmentation.
 
 ### OpenAI and SDK
 
