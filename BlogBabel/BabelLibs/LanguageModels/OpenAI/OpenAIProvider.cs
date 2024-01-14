@@ -29,9 +29,26 @@ namespace BabelLibs.LanguageModels.OpenAI
             string model = "gpt-3.5-turbo";
             // Translate the post to the destination language.
             // Try to spike https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/openai/Azure.AI.OpenAI
+            StringBuilder builder = await TranslateBodyAsync(language, chunks, model);
+
+            Azure.Response<ChatCompletions> titleCompletion = await TranslateTitleAsync(post, language, model);
+
+            Azure.Response<ChatCompletions> tagsCompletion = await TranslateTagAsync(post, language, model);
+
+            return new Post
+            {
+                Title = titleCompletion.Value.Choices[0].Message.Content,
+                Body = builder.ToString(),
+                Tags = tagsCompletion.Value.Choices[0].Message.Content.Split(',').ToList()
+            };
+        }
+
+        private async Task<StringBuilder> TranslateBodyAsync(string language, IList<string> chunks, string model)
+        {
+            // We split it into chunk since we have the usage limitations:  https://platform.openai.com/account/limits 
+
             StringBuilder builder = new StringBuilder();
-            Azure.Response<ChatCompletions> titleCompletion = null;
-            for(int i = 0; i < chunks.Count; i++)
+            for (int i = 0; i < chunks.Count; i++)
             {
                 var option = new ChatCompletionsOptions
                 {
@@ -43,48 +60,42 @@ namespace BabelLibs.LanguageModels.OpenAI
                     }
                 };
 
-                // TODO Next Step. It will exceed the Usage limit. https://platform.openai.com/account/limits 
-                // Do something to avoid the limit.
                 var completion = await _client.GetChatCompletionsAsync(option);
                 var body = completion.Value.Choices[0].Message.Content;
 
                 _logger.LogInformation($"Translation chunk {i} has been completed. {body.Length} characters found.");
-                
+
                 builder.AppendLine(body);
             }
 
-            var titleOption = new ChatCompletionsOptions
+            return builder;
+        }
+
+        private Task<Azure.Response<ChatCompletions>> TranslateTitleAsync(Post post, string language, string model)
+        {
+            return GenericTranslateAsync("title", post.Title, language, model);
+        }
+
+        private Task<Azure.Response<ChatCompletions>> TranslateTagAsync(Post post, string language, string model)
+        {
+            return GenericTranslateAsync("tags", string.Join(',', post.Tags), language, model);
+        }
+
+        private async Task<Azure.Response<ChatCompletions>> GenericTranslateAsync(string topic, string contents, string language, string model)
+        {
+            var option = new ChatCompletionsOptions
             {
                 DeploymentName = model,
                 Messages =
                     {
                         new ChatRequestSystemMessage("You are a bilingal technical blogger. You can translate anything with keeping the context, sentiment and Markdown format."),
-                        new ChatRequestUserMessage($"Could you translate the blog title into {language} ? \n {post.Title}"),
+                        new ChatRequestUserMessage($"Could you translate the {topic} into {language} ? \n {contents}"),
                     }
             };
-            titleCompletion = await _client.GetChatCompletionsAsync(titleOption);
+            Azure.Response<ChatCompletions> completion = await _client.GetChatCompletionsAsync(option);
 
-            _logger.LogInformation($"Translation of the title has been completed. {titleCompletion.Value.Choices[0].Message.Content.Length} characters found.");
-
-            var tagsOption = new ChatCompletionsOptions
-            {
-                DeploymentName = model,
-                Messages =
-                    {
-                        new ChatRequestSystemMessage("You are a bilingal technical blogger. You can translate anything with keeping the context, sentiment and Markdown format."),
-                        new ChatRequestUserMessage($"Could you translate the tags into {language} ? \n {string.Join(',', post.Tags)}"),
-                    }
-            };
-            var tagsCompletion = await _client.GetChatCompletionsAsync(tagsOption);
-
-            _logger.LogInformation($"Translation of the tags has been completed. {titleCompletion.Value.Choices[0].Message.Content.Length} characters found.");
-
-            return new Post
-            {
-                Title = tagsCompletion.Value.Choices[0].Message.Content,
-                Body = builder.ToString(),
-                Tags = tagsCompletion.Value.Choices[0].Message.Content.Split(',').ToList()
-            };
+            _logger.LogInformation($"Translation of the {topic} has been completed. {completion.Value.Choices[0].Message.Content.Length} characters found.");
+            return completion;
         }
 
         private async Task<IList<string>> Split(string text, int number, int limit, int maxLimit)
