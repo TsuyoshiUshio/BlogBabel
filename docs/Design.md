@@ -193,6 +193,14 @@ Example: false
 Type: boolean
 ```
 
+Qiita identifier is `item_id` that found on the url of the blog post. 
+Following is the item API for get request.
+
+```
+GET /api/v2/items/:item_id HTTP/1.1
+Host: api.example.com
+```
+
 ### Dev.to
 
 * [API](https://developers.forem.com/api/v1#tag/articles/operation/createArticle)
@@ -212,12 +220,18 @@ Payload
     "main_image": "string",
     "canonical_url": "string",
     "description": "string",
-    "tags": "string",
+    "tags": "   ",
     "organization_id": 0
     }
 }
 ```
 
+Read article requires `id` or `path`.  Users can't identity the `id` so that 
+I'd like to use the path for the identifier.  The articles endpoint is following.
+
+```
+GET https://dev.to/api/articles/{username}/{slug}
+```
 ### Exchange the post
 
 The providers has different payload. We are focusing small part.
