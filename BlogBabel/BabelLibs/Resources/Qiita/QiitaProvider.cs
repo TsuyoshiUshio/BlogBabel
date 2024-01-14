@@ -19,11 +19,12 @@ namespace BabelLibs.Resources.Qiita
             using var response = await _httpClient.GetAsync($"https://qiita.com/api/v2/items/{itemId}");
             using var stream = await response.Content.ReadAsStreamAsync();
             var json = JsonNode.Parse(stream);
-
+            var tags = json["tags"].AsArray().Select(x => x["name"].ToString()).ToList();
             return new Post
             {
                 Title = json["title"].ToString(),
-                Body = json["body"].ToString()
+                Body = json["body"].ToString(),
+                Tags = tags
             };
         }
     }

@@ -2,11 +2,7 @@
 using Microsoft.DeepDev;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace BabelLibs.LanguageModels.OpenAI
 {
@@ -70,10 +66,24 @@ namespace BabelLibs.LanguageModels.OpenAI
 
             _logger.LogInformation($"Translation of the title has been completed. {titleCompletion.Value.Choices[0].Message.Content.Length} characters found.");
 
+            var tagsOption = new ChatCompletionsOptions
+            {
+                DeploymentName = model,
+                Messages =
+                    {
+                        new ChatRequestSystemMessage("You are a bilingal technical blogger. You can translate anything with keeping the context, sentiment and Markdown format."),
+                        new ChatRequestUserMessage($"Could you translate the tags into {language} ? \n {string.Join(',', post.Tags)}"),
+                    }
+            };
+            var tagsCompletion = await _client.GetChatCompletionsAsync(tagsOption);
+
+            _logger.LogInformation($"Translation of the tags has been completed. {titleCompletion.Value.Choices[0].Message.Content.Length} characters found.");
+
             return new Post
             {
-                Title = titleCompletion.Value.Choices[0].Message.Content,
-                Body = builder.ToString()
+                Title = tagsCompletion.Value.Choices[0].Message.Content,
+                Body = builder.ToString(),
+                Tags = tagsCompletion.Value.Choices[0].Message.Content.Split(',').ToList()
             };
         }
 

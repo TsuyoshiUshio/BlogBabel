@@ -10,6 +10,6 @@ namespace BabelLibs.Resources
     {
         public string Title { get; set; }
         public string Body { get; set; }
-        public IList<string> _Tags { get; set; } = new List<string>();
+        public IList<string> Tags { get; set; } = new List<string>();
     }
 }
