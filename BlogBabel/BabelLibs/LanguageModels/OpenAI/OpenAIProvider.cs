@@ -19,11 +19,12 @@ namespace BabelLibs.LanguageModels.OpenAI
         public async Task<Post> TranslateAsync(Post post, string language)
         {
             _logger.LogInformation($"Start Translation for {language}.");
-            int limit = 2048;
+            int limit = 2000;
+            int maxLimit = 3000;
             int tokens = await CountTokens(post.Body);
             _logger.LogInformation($"Count Token has been completed. {tokens} tokens found.");
 
-            var chunks = await Split(post.Body, tokens, limit, 3000);
+            var chunks = await Split(post.Body, tokens, limit, maxLimit);
             _logger.LogInformation($"Split has been completed. {chunks.Count} chunks found.");
 
             string model = "gpt-3.5-turbo";
@@ -78,17 +79,22 @@ namespace BabelLibs.LanguageModels.OpenAI
 
         private Task<Azure.Response<ChatCompletions>> TranslateTagAsync(Post post, string language, string model)
         {
-            return GenericTranslateAsync("tags", string.Join(',', post.Tags), language, model);
+            return GenericTranslateAsync("tags", string.Join(',', post.Tags), language, model, systemPrompt: "You are a bilingal technical blogger. You can translate anything with keeping the context, sentiment with keeping the same format. Reply answer only. You don't need to add double quote.");
         }
 
-        private async Task<Azure.Response<ChatCompletions>> GenericTranslateAsync(string topic, string contents, string language, string model)
+        private async Task<Azure.Response<ChatCompletions>> GenericTranslateAsync(
+            string topic, 
+            string contents, 
+            string language, 
+            string model,
+            string systemPrompt = "You are a bilingal technical blogger. You can translate anything with keeping the context, sentiment and Markdown format.")
         {
             var option = new ChatCompletionsOptions
             {
                 DeploymentName = model,
                 Messages =
                     {
-                        new ChatRequestSystemMessage("You are a bilingal technical blogger. You can translate anything with keeping the context, sentiment and Markdown format."),
+                        new ChatRequestSystemMessage(systemPrompt),
                         new ChatRequestUserMessage($"Could you translate the {topic} into {language} ? \n {contents}"),
                     }
             };
@@ -121,10 +127,16 @@ namespace BabelLibs.LanguageModels.OpenAI
 
                         if (line.StartsWith('#') || currentToken > maxLimit)
                         {
+                            if (currentToken > maxLimit)
+                            {
+                                Console.WriteLine($"The number of tokens exceeds the max limit({maxLimit}). {currentToken} tokens found.");
+                            }
+
                             findingNextChapter = false;
                             currentToken = 0;
                             result.Add(currentBuffer.ToString());
                             currentBuffer.Clear();
+                            currentBuffer.AppendLine();
                             currentBuffer.AppendLine(line);
                         } 
                         else

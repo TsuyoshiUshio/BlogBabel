@@ -17,24 +17,33 @@ namespace BabelLibs.Resources.DevTo
             _settings = settings.Value;
             _httpClient = new HttpClient();
             _httpClient.DefaultRequestHeaders.Add("api-key", $"{_settings.ApiKey}");
+            _httpClient.DefaultRequestHeaders.Add("User-Agent", "BlogBabel");
         }
 
-        public async Task PostAsync(GenericPost post)
+        public async Task<HttpResponseMessage?> PostAsync(Post post)
         {
-            var content = new StringContent(JsonSerializer.Serialize(new
+            var json = (JsonSerializer.Serialize(new
             {
                 article = new
                 {
-                    post.Title,
+                    title = post.Title,
                     body_markdown = post.Body,
                     published = false,
+                    series = (string)null,
+                    main_image = (string)null,
+                    canonical_url = (string)null,
                     description = post.Title,
-                    tags = new[] { _settings.Sentiment }
+                    tags = post.Tags,
+                    organization_id = (string)null
                 }
-            }), Encoding.UTF8, "application/json");
+            }));
+            
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             using var response = await _httpClient.PostAsync("https://dev.to/api/articles", content);
             response.EnsureSuccessStatusCode();
+            Console.WriteLine("Successfully published.");
+            return response;
         }
     }
 }
