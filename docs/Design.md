@@ -258,3 +258,13 @@ Any other properties are not important and scope out from the first impelmentati
 Use JsonNode for parsing.
 
 * [JsonNode](https://learn.microsoft.com/ja-jp/dotnet/standard/serialization/system-text-json/use-dom#use-jsonnode)
+
+## Trouble Shooting
+
+### DevTo
+
+Returns 403. I was missing User-Agent that is required.
+* [Getting forbidden bots error message on Nodejs web server](https://github.com/forem/forem/issues/15822)
+
+Returns 422. Usually missing required parameters.
+Another case is, OpenAI returns message for `tags`. I modify the prompt not return the message.
