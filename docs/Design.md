@@ -119,8 +119,21 @@ Next, configure BabelBlog by editing the `config.json` file. This file should in
 Once your blog post is written and BabelBlog is configured, you can run BabelBlog with the following command:
 
 ```powershell
-BlogBabel.exe --Source [Source Provider Name] --Source-Id [Source Blog Post ID] --Dest [Destination Provider Name]
+BlogBabel.exe --Src [Source Provider Name] --Src-Id [Source Blog Post ID] --Dest [Destination Provider Name]
 ```
+
+#### Available parameters
+
+| Parameter | Description | Required | Default |
+| --------- | ----------- | -------- | ------- |
+| Src | Source Blog Provider (e.g. Qiita, DevTo) | true | - |
+| Src-Id | The identifier of the Source Blog post. | true | - |
+| Dest | The blog that will create a new post with translation | true | - |
+| Verbose | Show the all trace logging | false | false |
+| Model | Specify the GPT model (e.g. gpt4-turbo) | false | gpt3-turbo |
+| TokenLimit | Specify the Token Limit that start spliting post into chunks | false | 2000 |
+| MaxTokenLimit | Specify the Max Token that is used for a chunk | false | 3000 |
+
 
 This command will read your original blog post, translate it, and post a preview of the translated post on the destination platform.
 
