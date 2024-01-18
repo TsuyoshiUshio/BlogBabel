@@ -1,5 +1,6 @@
 ﻿using BabelLibs;
 using BabelLibs.LanguageModels.OpenAI;
+using BabelLibs.Resources;
 using BabelLibs.Resources.DevTo;
 using BabelLibs.Resources.Qiita;
 using Microsoft.Extensions.Configuration;
@@ -96,8 +97,9 @@ namespace BlogBabel
             services.Configure<BlogBabelSettings>(configuration.GetSection($"BlogBabel"));
             services.AddSingleton<BabelLibs.ExecutionContext>(context);
             services.AddSingleton<OpenAIProvider>();
-            services.AddSingleton<QiitaProvider>();
-            services.AddSingleton<DevToProvider>();
+            services.AddSingleton<IProvider, QiitaProvider>();
+            services.AddSingleton<IProvider, DevToProvider>();
+            services.AddSingleton<ProviderFactory>();
             services.AddSingleton<Processor>();
             services.AddLogging(builder =>
             {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BabelLibs.Resources.DevTo
 {
-    public class DevToProvider
+    public class DevToProvider : IDestinationProvider
     {
         private readonly HttpClient _httpClient;
         private readonly DevToSettings _settings;

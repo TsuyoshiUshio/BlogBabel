@@ -12,26 +12,29 @@ namespace BabelLibs
 {
     public class Processor
     {
-        private readonly QiitaProvider _source;
-        private readonly DevToProvider _destination;
+        private readonly ProviderFactory _factory;
         private readonly OpenAIProvider _provider;
+        private readonly ExecutionContext _context;
 
         // TODO Start with Simple Plain implementation. Then refactor to separate the responsibility.
         // For the first iteration, it will be experimental implementation for the spike.
-        public Processor(QiitaProvider source, DevToProvider destination, OpenAIProvider provider)
+        public Processor(ProviderFactory factory, OpenAIProvider provider, ExecutionContext context)
         {
-            _source = source;
-            _destination = destination;
+            _factory = factory;
             _provider = provider;
+            _context = context;
         }
 
         public async Task ExecuteAsync()
         {
-            var post = await _source.GetPostAsync("b42773afaa4a25c2af60");
+            var source = _factory.GetSourceProvider(_context.sourceProvider);
+            var destination = _factory.GetDestinationProvider(_context.destinationProvider);
+
+            var post = await source.GetPostAsync(_context.sourceIdentifier);
             var translation = await _provider.TranslateAsync(post, "English");
             Console.WriteLine($"Title: {translation.Title} \nBody:\n {translation.Body} \nTags: {string.Join(',', translation.Tags)}");
-            if (translation != null && _destination != null) {
-                await _destination.PostAsync(translation);
+            if (translation != null && destination != null) {
+                await destination.PostAsync(translation);
             }
 
 

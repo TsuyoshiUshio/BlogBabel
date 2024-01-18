@@ -3,7 +3,7 @@ using System.Text.Json.Nodes;
 
 namespace BabelLibs.Resources.Qiita
 {
-    public class QiitaProvider
+    public class QiitaProvider : ISourceProvider
     {
         private readonly HttpClient _httpClient;
         private readonly QiitaSettings _settings;

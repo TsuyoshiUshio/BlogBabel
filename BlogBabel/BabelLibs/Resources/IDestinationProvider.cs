@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BabelLibs.Resources
 {
-    public interface IDestinationProvider
+    public interface IDestinationProvider : IProvider
     {
+        public Task<HttpResponseMessage?> PostAsync(Post post);
     }
 }
