@@ -10,10 +10,14 @@ namespace BabelLibs.LanguageModels.OpenAI
     {
         private readonly OpenAIClient _client;
         private readonly ILogger<OpenAIProvider> _logger;
+        private readonly BlogBabelSettings _settings;
+        private readonly ExecutionContext _context;
 
-        public OpenAIProvider(IOptions<OpenAISettings> settings, ILogger <OpenAIProvider> logger) {
+        public OpenAIProvider(IOptions<OpenAISettings> settings, IOptions<BlogBabelSettings> blogBabelSettings, ExecutionContext executionContext, ILogger <OpenAIProvider> logger) {
             _client = new OpenAIClient(settings.Value.ApiKey);
             _logger = logger;
+            _settings = blogBabelSettings.Value;
+            _context = executionContext;
         }
 
         public async Task<Post> TranslateAsync(Post post, string language)
@@ -21,6 +25,27 @@ namespace BabelLibs.LanguageModels.OpenAI
             _logger.LogInformation($"Start Translation for {language}.");
             int limit = 2000;
             int maxLimit = 3000;
+
+            if (_settings.TokenLimit != 0)
+            {
+                limit = _settings.TokenLimit;
+            }
+
+            if (_settings.MaxTokenLimit != 0)
+            {
+                maxLimit = _settings.MaxTokenLimit;
+            }
+
+            if (_context.tokenLimit != 0)
+            {
+                limit = _context.tokenLimit;
+            }
+
+            if (_context.maxTokenLimit != 0)
+            {
+                maxLimit = _context.maxTokenLimit;
+            }
+
             int tokens = await CountTokens(post.Body);
             _logger.LogInformation($"Count Token has been completed. {tokens} tokens found.");
 
