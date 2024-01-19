@@ -214,6 +214,12 @@ GET /api/v2/items/:item_id HTTP/1.1
 Host: api.example.com
 ```
 
+## Sample CommandLine arguments
+
+```
+--src Qiita --dest DevTo  --src-id b42773afaa4a25c2af60
+```
+
 ### Dev.to
 
 * [API](https://developers.forem.com/api/v1#tag/articles/operation/createArticle)
@@ -245,6 +251,13 @@ I'd like to use the path for the identifier.  The articles endpoint is following
 ```
 GET https://dev.to/api/articles/{username}/{slug}
 ```
+
+## Sample CommandLine arguments
+
+```
+--src DevTo --dest Qiita  --src-id tsuyoshiushio/kafka-scaledjobs-sample-for-keda-with-eventhubs-h2m
+```
+
 ### Exchange the post
 
 The providers has different payload. We are focusing small part.
