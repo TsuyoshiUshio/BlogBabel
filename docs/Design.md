@@ -31,6 +31,11 @@ The tiktoken is based on [Byte pair encoding(BPE)](https://github.com/openai/tik
 
 Finally we found [Microsoft/Tokenizer](https://github.com/microsoft/Tokenizer/tree/main) that is officially supported.
 
+#### Token and languages
+
+Compared with English and Japanese, Japanese consume more tokens. Since Tokenizer already has English key worlds and Japanese hasn't the amount of computation is also large.
+For solving this issue. 
+
 ### Translation process
 
 We have 5 processes to make the translation successfully.
@@ -255,7 +260,7 @@ GET https://dev.to/api/articles/{username}/{slug}
 ## Sample CommandLine arguments
 
 ```
---src DevTo --dest Qiita  --src-id tsuyoshiushio/kafka-scaledjobs-sample-for-keda-with-eventhubs-h2m
+--src DevTo --dest Qiita  --src-id tsuyoshiushio/kafka-scaledjobs-sample-for-keda-with-eventhubs-h2m -tl 1000 -mtl 2000
 ```
 
 ### Exchange the post
