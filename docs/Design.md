@@ -96,6 +96,11 @@ BabelBlog configuration is stored in a JSON file and includes provider-specific 
 }
 ```
 
+### Install Free Translation
+We are enabling `Install Free Translation`. Using GitHub Custom actions, we enable to translate Markdown.md inside of the repo.
+Read it, chunk it, then publish to the Destination Blog Provider. 
+
+
 ## How to Use BabelBlog
 
 ### 1. Write Your Blog Post
