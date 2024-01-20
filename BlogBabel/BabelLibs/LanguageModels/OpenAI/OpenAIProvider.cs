@@ -81,7 +81,7 @@ namespace BabelLibs.LanguageModels.OpenAI
                     DeploymentName = model,
                     Messages =
                     {
-                        new ChatRequestSystemMessage("You are a bilingal technical blogger. You can translate anything with keeping the context, sentiment and Markdown format."),
+                        new ChatRequestSystemMessage("You are a bilingal technical blogger. You can translate anything with keeping the context, sentiment and Markdown format. Do not add your comment."),
                         new ChatRequestUserMessage($"Could you translate the following blogs into {language} that is the part {i} out of {chunks.Count}? \n {chunks[i]}"),
                     }
                 };
@@ -104,7 +104,13 @@ namespace BabelLibs.LanguageModels.OpenAI
 
         private Task<Azure.Response<ChatCompletions>> TranslateTagAsync(Post post, string language, string model)
         {
-            return GenericTranslateAsync("tags", string.Join(',', post.Tags), language, model, systemPrompt: "You are a bilingal technical blogger. You can translate anything with keeping the context, sentiment with keeping the same format. Reply answer only. You don't need to add double quote.");
+            return GenericTranslateAsync(
+                "tags", 
+                string.Join(',', post.Tags), 
+                language, 
+                model, 
+                systemPrompt: "You are a bilingal technical blogger. You can translate anything with keeping the context, sentiment with keeping the same format and the same number of tags. You don't need to add double quote. Tags are comma separeted format. Do not add your comment.",
+                userPromptTemplate: "Could you translate the {0} into {1} and if the {0} is English, return the original tags? \n {2}");
         }
 
         private async Task<Azure.Response<ChatCompletions>> GenericTranslateAsync(
@@ -112,15 +118,19 @@ namespace BabelLibs.LanguageModels.OpenAI
             string contents, 
             string language, 
             string model,
-            string systemPrompt = "You are a bilingal technical blogger. You can translate anything with keeping the context, sentiment and Markdown format.")
+            string systemPrompt = "You are a bilingal technical blogger. You can translate anything with keeping the context, sentiment, number of tags and Markdown format. Reply answer only.",
+            string userPromptTemplate = "Could you translate the {0} into {1}? \n {2}")
         {
+            var builder = new StringBuilder();
+            builder.AppendFormat(userPromptTemplate, topic, language, contents);
+            var userPrompt = builder.ToString();
             var option = new ChatCompletionsOptions
             {
                 DeploymentName = model,
                 Messages =
                     {
                         new ChatRequestSystemMessage(systemPrompt),
-                        new ChatRequestUserMessage($"Could you translate the {topic} into {language} ? \n {contents}"),
+                        new ChatRequestUserMessage(userPrompt),
                     }
             };
             Azure.Response<ChatCompletions> completion = await _client.GetChatCompletionsAsync(option);
