@@ -41,8 +41,8 @@ namespace BlogBabel
 
             var modelOption = new Option<string>(
                 aliases: new[] { "--model", "-m" },
-                description: "Language Model Name. Available GPT3, GPT2",
-                getDefaultValue: () => "gpt3.5-turbo");
+                description: "Language Model Name. Available gpt-3.5-turbo",
+                getDefaultValue: () => "gpt-3.5-turbo");
 
             var tokenLimitOption = new Option<int>(
                 aliases: new[] { "--token-limit", "-tl" },

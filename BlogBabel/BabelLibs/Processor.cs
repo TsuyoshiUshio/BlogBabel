@@ -34,7 +34,8 @@ namespace BabelLibs
             var translation = await _provider.TranslateAsync(post, destination.TargetLanguage());
             Console.WriteLine($"Title: {translation.Title} \nBody:\n {translation.Body} \nTags: {string.Join(',', translation.Tags)}");
             if (translation != null && destination != null) {
-                await destination.PostAsync(translation);
+                var response = await destination.PostAsync(translation);
+                response?.EnsureSuccessStatusCode();
             }
 
 

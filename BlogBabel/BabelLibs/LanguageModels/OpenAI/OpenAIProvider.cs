@@ -52,7 +52,7 @@ namespace BabelLibs.LanguageModels.OpenAI
             var chunks = await Split(post.Body, tokens, limit, maxLimit);
             _logger.LogInformation($"Split has been completed. {chunks.Count} chunks found.");
 
-            string model = "gpt-3.5-turbo";
+            string model = _context.modelOption;
             // Translate the post to the destination language.
             // Try to spike https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/openai/Azure.AI.OpenAI
             StringBuilder builder = await TranslateBodyAsync(language, chunks, model);
@@ -197,7 +197,7 @@ namespace BabelLibs.LanguageModels.OpenAI
 
         private async Task<int> CountTokens(string text)
         {
-            var tokenizer  = await TokenizerBuilder.CreateByModelNameAsync("gpt-3.5-turbo");
+            var tokenizer  = await TokenizerBuilder.CreateByModelNameAsync(_context.modelOption);
             var encoded = tokenizer.Encode(text, Array.Empty<string>());
             return encoded.Count;
         }
