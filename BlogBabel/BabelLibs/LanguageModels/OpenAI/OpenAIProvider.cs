@@ -83,7 +83,8 @@ namespace BabelLibs.LanguageModels.OpenAI
                     {
                         new ChatRequestSystemMessage("You are a bilingal technical blogger. You can translate anything with keeping the context, sentiment and Markdown format. Do not add your comment."),
                         new ChatRequestUserMessage($"Could you translate the following blogs into {language} that is the part {i} out of {chunks.Count}? \n {chunks[i]}"),
-                    }
+                    },
+                    Temperature = _context.tempature
                 };
 
                 var completion = await _client.GetChatCompletionsAsync(option);
@@ -131,7 +132,8 @@ namespace BabelLibs.LanguageModels.OpenAI
                     {
                         new ChatRequestSystemMessage(systemPrompt),
                         new ChatRequestUserMessage(userPrompt),
-                    }
+                    },
+                Temperature = _context.tempature
             };
             Azure.Response<ChatCompletions> completion = await _client.GetChatCompletionsAsync(option);
 

@@ -54,6 +54,11 @@ namespace BlogBabel
                 description: "Max Token Limit for the language model.",
                 getDefaultValue: () => 3000);
 
+            var temperture = new Option<long>(
+                aliases: new[] { "--temperture", "-t" },
+                description: "Temperture for the language model.",
+                getDefaultValue: () => 0);
+
             var rootCommand = new RootCommand(description: "Blog Babel - Translate your blog into any languages.");
             rootCommand.AddOption(sourceOption);            
             rootCommand.AddOption(sourceIdentifierOption);
@@ -62,9 +67,10 @@ namespace BlogBabel
             rootCommand.AddOption(modelOption);
             rootCommand.AddOption(tokenLimitOption);
             rootCommand.AddOption(maxTokenLimitOption);
+            rootCommand.AddOption(temperture);
 
             BabelLibs.ExecutionContext context = default;
-            rootCommand.SetHandler((src, srcId, dst, verbose, model, tokenLimit, maxTokenLimit) =>
+            rootCommand.SetHandler((src, srcId, dst, verbose, model, tokenLimit, maxTokenLimit, tempature) =>
             {
                 context = new BabelLibs.ExecutionContext
                 (
@@ -74,9 +80,10 @@ namespace BlogBabel
                     loggingOption: verbose,
                     modelOption: model,
                     tokenLimit: tokenLimit,
-                    maxTokenLimit: maxTokenLimit
+                    maxTokenLimit: maxTokenLimit,
+                    tempature: tempature
                 );
-            }, sourceOption, sourceIdentifierOption, destinationOption, loggingOption, modelOption, tokenLimitOption, maxTokenLimitOption);
+            }, sourceOption, sourceIdentifierOption, destinationOption, loggingOption, modelOption, tokenLimitOption, maxTokenLimitOption, temperture);
 
 
             await rootCommand.InvokeAsync(args);

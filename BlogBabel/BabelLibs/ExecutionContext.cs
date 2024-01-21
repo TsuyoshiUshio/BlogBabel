@@ -7,5 +7,6 @@
         bool loggingOption,
         string modelOption,
         int tokenLimit,
-        int maxTokenLimit);
+        int maxTokenLimit,
+        long tempature);
 }
