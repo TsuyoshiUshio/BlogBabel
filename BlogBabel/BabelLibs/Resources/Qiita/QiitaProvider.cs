@@ -42,7 +42,7 @@ namespace BabelLibs.Resources.Qiita
             {
                 Title = post.Title,
                 Body = post.Body,
-                Private = false,
+                Private = true,
                 Tags = post.Tags.Select(x => new Tag
                 {
                     Name = x,
