@@ -96,6 +96,39 @@ BabelBlog configuration is stored in a JSON file and includes provider-specific 
 }
 ```
 
+## Translation Experiment
+
+Sharing the observation of actual translation.
+
+### Japanese to English translation
+
+* **Model:** gpt-3-turbo
+
+#### Japanese
+* [[更新] Source Generator を使って懐かしの AOP を作ってみる](https://qiita.com/TsuyoshiUshio@github/items/b42773afaa4a25c2af60)
+
+#### English
+* [[Update] Creating Nostalgic AOP Using Source Generator](https://dev.to/tsuyoshiushio/update-creating-nostalgic-aop-using-source-generator-3i75)
+
+#### Observations
+
+Looks pretty good translation. I had to remove the first sentence from chat-gpt. I need to improve prompt.
+
+### English to Japanese translation
+
+* **Model:** gpt-4-1106-preview
+
+#### English
+* [Kafka ScaledJobs sample for KEDA with EventHubs](https://dev.to/tsuyoshiushio/kafka-scaledjobs-sample-for-keda-with-eventhubs-h2m)
+
+#### Japanese
+* [KEDAとEventHubsを使用したKafka ScaledJobsのサンプル](https://qiita.com/TsuyoshiUshio@github/items/6ed99b068a7101678276)
+
+#### Observations
+
+This translation is good enough quality, however, the first sentence as pretty weird, so that I had to remove a sentence. 
+It might be possible English blog that I wrote could have not enough English quality. Consider to add feature to review/rewrite the blog post. 
+
 ### Install Free Translation
 We are enabling `Install Free Translation`. Using GitHub Custom actions, we enable to translate Markdown.md inside of the repo.
 Read it, chunk it, then publish to the Destination Blog Provider. 
