@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "BlogBabel": {
-      "commandName": "Project",
-      "commandLineArgs": "--src DevTo --dest Qiita  --src-id tsuyoshiushio/kafka-scaledjobs-sample-for-keda-with-eventhubs-h2m -tl 1000 -mtl 2000 -v"
-    }
-  }
-}
