@@ -24,15 +24,18 @@ jobs:
           Compress-Archive -Path ${{ github.workspace }}\BlogBabel\BlogBabel\bin\Release\net8.0\win-x64\publish\BlogBabel.exe -DestinationPath ${{ github.workspace }}\BlogBabel\BlogBabel\bin\Release\net8.0\win-x64\publish\BlogBabel-win-x64.zip
         shell: pwsh
       - name: Publish linux-x64
-        run: dotnet publish -r linux-x64 -c Release /p:PublishSingleFile=true /p:SelfContained=true ${{ github.workspace }}\BlogBabel\BlogBabel
+        run: |
+          dotnet publish -r linux-x64 -c Release /p:PublishSingleFile=true /p:SelfContained=true ${{ github.workspace }}\BlogBabel\BlogBabel
           Compress-Archive -Path ${{ github.workspace }}\BlogBabel\BlogBabel\bin\Release\net8.0\linux-x64\publish\BlogBabel -DestinationPath ${{ github.workspace }}\BlogBabel\BlogBabel\bin\Release\net8.0\linux-x64\publish\BlogBabel-linux-x64.zip
         shell: pwsh
       - name: Publish osx-x64
-        run: dotnet publish -r osx-x64 -c Release /p:PublishSingleFile=true /p:SelfContained=true ${{ github.workspace }}\BlogBabel\BlogBabel
+        run: |
+          dotnet publish -r osx-x64 -c Release /p:PublishSingleFile=true /p:SelfContained=true ${{ github.workspace }}\BlogBabel\BlogBabel
           Compress-Archive -Path ${{ github.workspace }}\BlogBabel\BlogBabel\bin\Release\net8.0\osx-x64\publish\BlogBabel -DestinationPath ${{ github.workspace }}\BlogBabel\BlogBabel\bin\Release\net8.0\osx-x64\publish\BlogBabel-osx-x64.zip
         shell: pwsh
       - name: Publish osx-arm64
-        run: dotnet publish -r osx-arm64 -c Release /p:PublishSingleFile=true /p:SelfContained=true ${{ github.workspace }}\BlogBabel\BlogBabel     
+        run: |
+          dotnet publish -r osx-arm64 -c Release /p:PublishSingleFile=true /p:SelfContained=true ${{ github.workspace }}\BlogBabel\BlogBabel     
           Compress-Archive -Path ${{ github.workspace }}\BlogBabel\BlogBabel\bin\Release\net8.0\osx-arm64\publish\BlogBabel -DestinationPath ${{ github.workspace }}\BlogBabel\BlogBabel\bin\Release\net8.0\osx-arm64\publish\BlogBabel-osx-arm64.zip
         shell: pwsh
       - name: Create release
