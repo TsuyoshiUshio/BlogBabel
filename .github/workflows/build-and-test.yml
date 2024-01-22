@@ -24,7 +24,7 @@ jobs:
       - name: Build project
         run: dotnet build -c Release .\BlogBabel
       - name: Run tests
-        run: dotnet test --logger trx --results-directory "TestResults" .\BlogBabel\BlogLibs.Tests
+        run: dotnet test --logger trx --results-directory "TestResults" .\BlogBabel\BabelLibs.Tests
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v3
         with:
