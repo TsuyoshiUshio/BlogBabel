@@ -1,0 +1,21 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net8</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <MajorVersion>1</MajorVersion>
+    <MinorVersion>0</MinorVersion>
+    <PatchVersion>0</PatchVersion>
+    <GITHUB_RUN_ID Condition="'$(GITHUB_RUN_ID)' == '' ">0</GITHUB_RUN_ID>
+    <PreviewVersion>1</PreviewVersion>
+    
+    <!-- During previews, always generate this suffix, even for official releases -->
+    <_VersionSuffix Condition="'$(PreviewVersion)' != ''">-preview.$(PreviewVersion).$(GITHUB_RUN_ID)</_VersionSuffix>
+    <!-- Otherwise, use the suffix directly, adding a '-' -->
+    <_VersionSuffix Condition="'$(PreviewVersion)' == '' and '$(VersionSuffix)' != ''">-$(VersionSuffix)</_VersionSuffix>
+    
+    <VersionPrefix>$(MajorVersion).$(MinorVersion).$(PatchVersion)</VersionPrefix>
+    <Version>$(VersionPrefix)$(_VersionSuffix)</Version>
+    <AssemblyVersion>$(MajorVersion).$(MinorVersion).0.0</AssemblyVersion>
+    <FileVersion>$(VersionPrefix).$(GITHUB_RUN_ID)</FileVersion>
+  </PropertyGroup>
+</Project>
