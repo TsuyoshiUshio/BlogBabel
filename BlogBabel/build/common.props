@@ -6,7 +6,7 @@
     <MinorVersion>0</MinorVersion>
     <PatchVersion>0</PatchVersion>
     <GITHUB_RUN_ID Condition="'$(GITHUB_RUN_ID)' == '' ">0</GITHUB_RUN_ID>
-    <PreviewVersion>1</PreviewVersion>
+    <PreviewVersion>2</PreviewVersion>
     
     <!-- During previews, always generate this suffix, even for official releases -->
     <_VersionSuffix Condition="'$(PreviewVersion)' != ''">-preview.$(PreviewVersion).$(GITHUB_RUN_ID)</_VersionSuffix>
