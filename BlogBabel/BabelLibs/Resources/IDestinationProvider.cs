@@ -9,7 +9,5 @@ namespace BabelLibs.Resources
     public interface IDestinationProvider : IProvider
     {
         public Task<HttpResponseMessage?> PostAsync(Post post);
-
-        public string TargetLanguage();
     }
 }

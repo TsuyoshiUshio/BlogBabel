@@ -8,5 +8,6 @@ namespace BabelLibs.Resources
 {
     public interface IProvider
     {
+        public string GetLanguage();
     }
 }

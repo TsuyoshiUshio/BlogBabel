@@ -110,6 +110,13 @@ namespace BlogBabel
             services.AddSingleton<Processor>();
             services.AddLogging(builder =>
             {
+                var logLevel = LogLevel.Information;
+                if(context.loggingOption)
+                {
+                    logLevel = LogLevel.Trace;
+                }
+                builder.SetMinimumLevel(logLevel);
+
                 builder.AddSimpleConsole(options =>
                 {
                     options.IncludeScopes = true;

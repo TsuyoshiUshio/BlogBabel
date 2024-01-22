@@ -22,7 +22,7 @@ namespace BabelLibs.LanguageModels.OpenAI
 
         public async Task<Post> TranslateAsync(Post post, string language)
         {
-            _logger.LogInformation($"Start Translation for {language}.");
+            _logger.LogDebug($"Start Translation for {language}.");
             int limit = 2000;
             int maxLimit = 3000;
 
@@ -47,10 +47,10 @@ namespace BabelLibs.LanguageModels.OpenAI
             }
 
             int tokens = await CountTokens(post.Body);
-            _logger.LogInformation($"Count Token has been completed. {tokens} tokens found.");
+            _logger.LogDebug($"Count Token has been completed. {tokens} tokens found.");
 
             var chunks = await Split(post.Body, tokens, limit, maxLimit);
-            _logger.LogInformation($"Split has been completed. {chunks.Count} chunks found.");
+            _logger.LogDebug($"Split has been completed. {chunks.Count} chunks found.");
 
             string model = _context.modelOption;
             // Translate the post to the destination language.
@@ -90,7 +90,7 @@ namespace BabelLibs.LanguageModels.OpenAI
                 var completion = await _client.GetChatCompletionsAsync(option);
                 var body = completion.Value.Choices[0].Message.Content;
 
-                _logger.LogInformation($"Translation chunk {i} has been completed. {body.Length} characters found.");
+                _logger.LogDebug($"Translation chunk {i} has been completed. {body.Length} characters found.");
 
                 builder.AppendLine(body);
             }
@@ -137,7 +137,7 @@ namespace BabelLibs.LanguageModels.OpenAI
             };
             Azure.Response<ChatCompletions> completion = await _client.GetChatCompletionsAsync(option);
 
-            _logger.LogInformation($"Translation of the {topic} has been completed. {completion.Value.Choices[0].Message.Content.Length} characters found.");
+            _logger.LogDebug($"Translation of the {topic} has been completed. {completion.Value.Choices[0].Message.Content.Length} characters found.");
             return completion;
         }
 
@@ -197,9 +197,17 @@ namespace BabelLibs.LanguageModels.OpenAI
 
         private async Task<int> CountTokens(string text)
         {
-            var tokenizer  = await TokenizerBuilder.CreateByModelNameAsync(_context.modelOption);
-            var encoded = tokenizer.Encode(text, Array.Empty<string>());
-            return encoded.Count;
+            try
+            {
+                var tokenizer = await TokenizerBuilder.CreateByModelNameAsync(_context.modelOption);
+                var encoded = tokenizer.Encode(text, Array.Empty<string>());
+                return encoded.Count;
+            } 
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Failed to count tokens. {ex.Message}");
+                throw;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +15,14 @@ namespace BabelLibs.Resources.DevTo
     {
         private readonly HttpClient _httpClient;
         private readonly DevToSettings _settings;
-        public DevToProvider(IOptions<DevToSettings> settings)
+        private readonly ILogger _logger;
+        public DevToProvider(IOptions<DevToSettings> settings, ILogger<DevToProvider> logger)
         {
             _settings = settings.Value;
             _httpClient = new HttpClient();
             _httpClient.DefaultRequestHeaders.Add("api-key", $"{_settings.ApiKey}");
             _httpClient.DefaultRequestHeaders.Add("User-Agent", "BlogBabel");
+            _logger = logger;
         }
 
         public async Task<Post> GetPostAsync(string itemId)
@@ -56,14 +59,18 @@ namespace BabelLibs.Resources.DevTo
             }));
             
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            using var response = await _httpClient.PostAsync("https://dev.to/api/articles", content);
+            var uri = "https://dev.to/api/articles";
+            using var response = await _httpClient.PostAsync(uri, content);
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogDebug($"Failed Post request. uri: {uri} body: {json}");
+            }
             response.EnsureSuccessStatusCode();
             Console.WriteLine("Successfully published.");
             return response;
         }
 
-        public string TargetLanguage()
+        public string GetLanguage()
         {
             return _settings.Language;
         }

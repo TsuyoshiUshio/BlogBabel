@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -10,14 +12,16 @@ namespace BabelLibs.Resources.Qiita
     {
         private readonly HttpClient _httpClient;
         private readonly QiitaSettings _settings;
-        public QiitaProvider(IOptions<QiitaSettings> settings)
+        private readonly ILogger _logger;
+        public QiitaProvider(IOptions<QiitaSettings> settings, ILogger<QiitaProvider> logger)
         {
             _settings = settings.Value;
             _httpClient = new HttpClient();
             _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_settings.PersonalAccessToken}");
+            _logger = logger;
         }
 
-        public string TargetLanguage()
+        public string GetLanguage()
         {
             return _settings.Language;
         }
@@ -36,7 +40,7 @@ namespace BabelLibs.Resources.Qiita
             };
         }
 
-        public Task<HttpResponseMessage?> PostAsync(Post post)
+        public async Task<HttpResponseMessage?> PostAsync(Post post)
         {
             var qiitaPost = new QiitaPost
             {
@@ -50,8 +54,15 @@ namespace BabelLibs.Resources.Qiita
                 }).ToList()
             };
             var json = JsonSerializer.Serialize(qiitaPost);
+            var uri = "https://qiita.com/api/v2/items";
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            return _httpClient.PostAsync("https://qiita.com/api/v2/items", content);
+
+            var response = await _httpClient.PostAsync(uri, content);
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogDebug($"Failed Post request. uri: {uri} body: {json}");
+            }
+            return response;
         }
 
         private class QiitaPost
