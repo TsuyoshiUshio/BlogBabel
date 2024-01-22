@@ -338,3 +338,8 @@ Returns 403. I was missing User-Agent that is required.
 
 Returns 422. Usually missing required parameters.
 Another case is, OpenAI returns message for `tags`. I modify the prompt not return the message.
+
+### GitHub Action 
+
+I saw `Error: Error 403: Resource not accessible by integration` for the `ncipollo/release-action` execution. 
+That is because of lack of permission for the pipeline. Refer to [After update, Error 403: Resource not accessible by integration](https://github.com/ncipollo/release-action/issues/129#issuecomment-1117290255).
