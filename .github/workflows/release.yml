@@ -34,4 +34,4 @@ jobs:
         uses: ncipollo/release-action@v1.13.0
         with:
           name: Release ${{ github.ref }}
-          artifacts: ${{ github.workspace }}/BlogBabel/BlogBabel/bin/Release/net8/win-x64/publish/BlogBabel.exe,${{ github.workspace }}/BlogBabel/BlogBabel/bin/Release/net8/linux-x64/publish/BlogBabel.exe,${{ github.workspace }}/BlogBabel/BlogBabel/bin/Release/net8/osx-x64/publish/BlogBabel.exe,${{ github.workspace }}/BlogBabel/BlogBabel/bin/Release/net8/osx-arm64/publish/BlogBabel.exe
+          artifacts: ${{ github.workspace }}\BlogBabel\BlogBabel\bin\Release\net8.0\win-x64\publish\BlogBabel.exe,${{ github.workspace }}\BlogBabel\BlogBabel\bin\Release\net8.0\linux-x64\publish\BlogBabel,${{ github.workspace }}\BlogBabel\BlogBabel\bin\Release\net8.0\osx-x64\publish\BlogBabel,${{ github.workspace }}\BlogBabel\BlogBabel\bin\Release\net8.0\osx-arm64\publish\BlogBabel
