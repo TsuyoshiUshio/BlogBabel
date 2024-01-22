@@ -1,0 +1,37 @@
+name: BlogBabel Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publish win-x64
+        run: dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true /p:SelfContained=true ${{ github.workspace }}\BlogBabel\BlogBabel
+      - name: Publish linux-x64
+        run: dotnet publish -r linux-x64 -c Release /p:PublishSingleFile=true /p:SelfContained=true ${{ github.workspace }}\BlogBabel\BlogBabel
+      - name: Publish osx-x64
+        run: dotnet publish -r osx-x64 -c Release /p:PublishSingleFile=true /p:SelfContained=true ${{ github.workspace }}\BlogBabel\BlogBabel
+      - name: Publish osx-arm64
+        run: dotnet publish -r osx-arm64 -c Release /p:PublishSingleFile=true /p:SelfContained=true ${{ github.workspace }}\BlogBabel\BlogBabel     
+      - name: Create release
+        uses: release-drafter/release-drafter@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload binaries
+        uses: ncipollo/release-action@v1.13.0
+        with:
+          name: Release ${{ github.ref }}
+          artifacts: ${{ github.workspace }}/BlogBabel/BlogBabel/bin/Release/net8/win-x64/publish/BlogBabel.exe,${{ github.workspace }}/BlogBabel/BlogBabel/bin/Release/net8/linux-x64/publish/BlogBabel.exe,${{ github.workspace }}/BlogBabel/BlogBabel/bin/Release/net8/osx-x64/publish/BlogBabel.exe,${{ github.workspace }}/BlogBabel/BlogBabel/bin/Release/net8/osx-arm64/publish/BlogBabel.exe
