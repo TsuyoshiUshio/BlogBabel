@@ -343,3 +343,46 @@ Another case is, OpenAI returns message for `tags`. I modify the prompt not retu
 
 I saw `Error: Error 403: Resource not accessible by integration` for the `ncipollo/release-action` execution. 
 That is because of lack of permission for the pipeline. Refer to [After update, Error 403: Resource not accessible by integration](https://github.com/ncipollo/release-action/issues/129#issuecomment-1117290255).
+
+## Custom GitHub actions
+
+We are going to develop custom GitHub actions. The motivation is, we want to make easy to setup the Blog Babel environment.
+If we can use Custom GitHub actions, we can provide
+
+### Translate Action
+
+This action will translate a blog and create a new blog post with the translations.
+We are going to support `FileProvider`, however, we start from `DevTo` and `Qiita`. The reason is, `FileProvider` need to support following feature.
+
+* Support images to share in somewhere (e.g. Azure Blog Strage or s3)
+* Support other languages. `Spanish`, `French`, `German`, and `Chinese`.
+
+Find the blog sites that is popular and support the target languages and MarkDown format body.
+
+#### Action Inputs
+
+| Input name | Description | Rquired | Default Value |
+| ---------- | ----------- | ------- | --------------|
+| source     | Source Provider (e.g. Qiita, DevTo) | yes | - |
+| dest | Destination Provider (e.g. Qiita, DevTo) | yes | - |
+| soureceId  | The Id of the source blog url | yes | - |
+| model      | The model | false | gpt3.5-turbo |
+| tokenLimit | Specify the Token Limit that start spliting post into chunks | false | 2000 |
+| maxTokenLimit | Specify the Max Token that is used for a chunk | false | 3000 |
+| tempature | Temperture for the language model. | false | 0 |
+
+#### Environment Variables
+
+**TODO:** Need more research for the proper config of Environment Variables.
+
+* `qiita_pat`: Personal Access Token for Qiita
+* `devto_api_key` : ApiKey of DevTo
+* `open_ai_api_key`: ApiKey of OpenAi
+
+#### Samples
+
+We provide sample pipeline that I use the custom GitHub actions.
+
+
+* [Building your first custom GitHub action](https://resources.github.com/learn/pathways/automation/advanced/building-your-first-custom-github-action/)
+* [release-action](https://github.com/ncipollo/release-action/tree/main)
