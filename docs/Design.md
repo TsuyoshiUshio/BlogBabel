@@ -385,4 +385,5 @@ We provide sample pipeline that I use the custom GitHub actions.
 
 
 * [Building your first custom GitHub action](https://resources.github.com/learn/pathways/automation/advanced/building-your-first-custom-github-action/)
+* [Creating a javascript action](https://docs.github.com/en/actions/creating-actions/creating-a-javascript-action)
 * [release-action](https://github.com/ncipollo/release-action/tree/main)
