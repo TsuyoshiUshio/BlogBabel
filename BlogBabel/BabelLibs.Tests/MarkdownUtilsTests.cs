@@ -1,6 +1,6 @@
 namespace BabelLibs.Tests
 {
-    public class UnitTest1
+    public class MarkdownUtilsTests
     {
         [Fact]
         public void Test1()
