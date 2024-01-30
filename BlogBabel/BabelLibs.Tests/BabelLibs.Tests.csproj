@@ -26,4 +26,20 @@
     <Folder Include="fixture\MarkdownUtilsTests\ConvertPathNormalCase\img\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BabelLibs\BabelLibs.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="fixture\MarkdownUtilsTests\ConvertPathNormalCase\Expected.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="fixture\MarkdownUtilsTests\ConvertPathNormalCase\img\blogbabel-icon.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="fixture\MarkdownUtilsTests\ConvertPathNormalCase\Source.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
