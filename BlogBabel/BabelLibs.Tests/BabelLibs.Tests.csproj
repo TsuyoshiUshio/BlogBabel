@@ -31,6 +31,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="fixture\GitHubUtilsTests\GetProfile\config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="fixture\MarkdownUtilsTests\ConvertPathNormalCase\Expected.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
