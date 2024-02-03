@@ -302,6 +302,22 @@ GET https://dev.to/api/articles/{username}/{slug}
 --src DevTo --dest Qiita  --src-id tsuyoshiushio/kafka-scaledjobs-sample-for-keda-with-eventhubs-h2m -tl 1000 -mtl 2000
 ```
 
+### File
+
+`FileProvider` enable customer to publish the blog from a GitHub repository. The reason we use `GitHub` is, we need to host images in somewhere. If the customers want to write a blog using md format, then publish a blog service or convert to the other file path.
+
+The path can be an absolute path or relative path within a git repository.
+
+`tag.txt` and `title.txt` should be included on the same directory as the target file. It should include comma separated tag and title of the blog respectively.
+
+The file Provider will convert the relative/absolute path, for example `img/blogbabel-icon.jpg`, of the images into GitHub raw image format like `https://raw.githubusercontent.com/TsuyoshiUshio/BlogBabel/main/BlogBabel/BabelLibs.Tests/fixture/MarkdownUtilsTests/ConvertPathNormalCase/img/blogbabel-icon.jpg`.
+
+## Sample CommandLine arguments
+
+```
+--src File --dest Qiita --src-id .\doc\SomeBlog.md -tl 1000 -mtl 2000
+```
+
 ### Exchange the post
 
 The providers has different payload. We are focusing small part.
