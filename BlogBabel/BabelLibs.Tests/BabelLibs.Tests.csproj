@@ -31,6 +31,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="fixture\GitHubUtilsTests\GetCurrentBranch\HEAD">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="fixture\GitHubUtilsTests\GetProfile\normal_config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

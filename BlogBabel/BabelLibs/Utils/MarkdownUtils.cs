@@ -19,7 +19,7 @@ namespace BabelLibs.Utils
                 string sourceFullPath = Path.GetFullPath(sourcePath);
                 
                 string currentPath = Directory.GetCurrentDirectory();
-                string projectRoot = GetGitRoot(sourceFullPath);
+                string projectRoot = GitHubUtils.GetGitRoot(sourceFullPath);
                 
                 string imageRelativePath = m.Groups[1].Value;
 
@@ -40,23 +40,6 @@ namespace BabelLibs.Utils
                 return replacement;
             });
             return Regex.Replace(sourceContent, pattern, evaluator);
-        }
-
-        public static string GetGitRoot(string startDirectory)
-        {
-            var directory = new DirectoryInfo(startDirectory);
-
-            while (directory != null)
-            {
-                if (Directory.Exists(Path.Combine(directory.FullName, ".git")))
-                {
-                    return directory.FullName;
-                }
-
-                directory = directory.Parent;
-            }
-
-            return null;
         }
     }
 }

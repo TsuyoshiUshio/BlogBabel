@@ -18,5 +18,12 @@ namespace BabelLibs.Tests
             Assert.Equal("refs/heads/main", gitProfile.Branch["main"].Merge);
             Assert.Equal("https://github.com/TsuyoshiUshio/BlogBabel.git", gitProfile.Remote["origin"].Url);
         }
+
+        [Fact]
+        public void GetCurrentBranch()
+        {
+            var currentBranch = GitHubUtils.GetCurrentBranch(Path.Combine("fixture", nameof(GitHubUtilsTests), nameof(GetCurrentBranch), "HEAD"));
+            Assert.Equal("main", currentBranch);
+        }
     }
 }

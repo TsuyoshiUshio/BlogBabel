@@ -32,7 +32,7 @@ namespace BabelLibs.Tests
 
         private static string GetUnitTestProjectRoot()
         {
-            string projectRoot = MarkdownUtils.GetGitRoot(Directory.GetCurrentDirectory());
+            string projectRoot = GitHubUtils.GetGitRoot(Directory.GetCurrentDirectory());
             return Path.Combine(projectRoot, "BlogBabel", "BabelLibs.Tests");
         }
     }

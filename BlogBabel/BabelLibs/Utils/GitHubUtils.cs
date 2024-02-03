@@ -33,6 +33,30 @@ namespace BabelLibs.Utils
             };
         }
 
+        public static string GetCurrentBranch(string filePath)
+        {
+            var headFile = File.ReadAllText(filePath);
+            var match = Regex.Match(headFile, "ref: refs/heads/(.*)");
+            return match.Groups[1].Value;
+        }
+
+        public static string GetGitRoot(string startDirectory)
+        {
+            var directory = new DirectoryInfo(startDirectory);
+
+            while (directory != null)
+            {
+                if (Directory.Exists(Path.Combine(directory.FullName, ".git")))
+                {
+                    return directory.FullName;
+                }
+
+                directory = directory.Parent;
+            }
+
+            return null;
+        }
+
         private static Dictionary<string, RemoteSection> GetRemoteSections(IniData data)
         {
             var remoteSections = new Dictionary<string, RemoteSection>();
