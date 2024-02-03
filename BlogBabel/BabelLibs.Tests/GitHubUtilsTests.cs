@@ -9,12 +9,14 @@ namespace BabelLibs.Tests
 {
     public class GitHubUtilsTests
     {
-        [Fact]
-        public void GetProfile()
+        [Theory]
+        [InlineData("normal_config")]
+        [InlineData("multiple_config")]
+        public void GetProfile(string configName)
         {
-            var gitProfile = GitHubUtils.ParseGitConfig(Path.Combine("fixture", nameof(GitHubUtilsTests), nameof(GetProfile), "config"));
-            Assert.Equal("refs/heads/main", gitProfile.Branch.Merge);
-            Assert.Equal("https://github.com/TsuyoshiUshio/BlogBabel.git", gitProfile.Remote.Url);
+            var gitProfile = GitHubUtils.ParseGitConfig(Path.Combine("fixture", nameof(GitHubUtilsTests), nameof(GetProfile), configName));
+            Assert.Equal("refs/heads/main", gitProfile.Branch["main"].Merge);
+            Assert.Equal("https://github.com/TsuyoshiUshio/BlogBabel.git", gitProfile.Remote["origin"].Url);
         }
     }
 }

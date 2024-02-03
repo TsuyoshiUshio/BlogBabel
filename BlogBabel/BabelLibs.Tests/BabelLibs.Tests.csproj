@@ -31,7 +31,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="fixture\GitHubUtilsTests\GetProfile\config">
+    <None Update="fixture\GitHubUtilsTests\GetProfile\normal_config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="fixture\GitHubUtilsTests\GetProfile\multiple_config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="fixture\MarkdownUtilsTests\ConvertPathNormalCase\Expected.md">

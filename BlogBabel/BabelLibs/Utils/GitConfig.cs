@@ -9,8 +9,8 @@ namespace BabelLibs.Utils
     public class GitConfig
     {
         public CoreSection Core { get; set; }
-        public RemoteSection Remote { get; set; }
-        public BranchSection Branch { get; set; }
+        public IDictionary<string, RemoteSection> Remote { get; set; }
+        public IDictionary<string, BranchSection> Branch { get; set; }
 
         public class CoreSection
         {
