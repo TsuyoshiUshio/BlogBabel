@@ -27,6 +27,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="fixture\GitHubUtilsTests\GetGitHubRoot\.git\config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="fixture\GitHubUtilsTests\GetGitHubRoot\.git\HEAD">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BabelLibs\BabelLibs.csproj" />
   </ItemGroup>
 
