@@ -25,5 +25,12 @@ namespace BabelLibs.Tests
             var currentBranch = GitHubUtils.GetCurrentBranch(Path.Combine("fixture", nameof(GitHubUtilsTests), nameof(GetCurrentBranch), "HEAD"));
             Assert.Equal("main", currentBranch);
         }
+
+        [Fact]
+        public void GetGitHubRoot()
+        {
+            var gitHubRoot = GitHubUtils.GetGitHubRoot(Path.Combine("fixture", nameof(GitHubUtilsTests), nameof(GetGitHubRoot)));
+            Assert.Equal("https://raw.githubusercontent.com/TsuyoshiUshio/BlogBabel/main/", gitHubRoot);
+        }
     }
 }

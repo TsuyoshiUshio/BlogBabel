@@ -94,5 +94,17 @@ namespace BabelLibs.Utils
             }
             return branchSections;
         }
+
+        public static string GetGitHubRoot(string gitRootPath)
+        {
+            var gitConfig = ParseGitConfig(Path.Combine(gitRootPath, ".git", "config"));
+            var currentBranch = GetCurrentBranch(Path.Combine(gitRootPath, ".git", "HEAD"));
+            // https://github.com/TsuyoshiUshio/BlogBabel.git
+            var remoteUrl = gitConfig.Remote["origin"].Url;
+            var match = Regex.Match(remoteUrl, "^.*//github.com/(.*)/(.*).git");
+            var user = match.Groups[1].Value;
+            var project = match.Groups[2].Value;
+            return $"https://raw.githubusercontent.com/{user}/{project}/{currentBranch}/";
+        }
     }
 }
